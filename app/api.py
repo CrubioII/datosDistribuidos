@@ -7,6 +7,12 @@ nunca acceda directamente a la capa de datos.
 Ejecutar: uvicorn app.api:app --reload --port 8000
 """
 
+import sys
+from pathlib import Path
+
+# Agregar app/ al path para imports locales
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Optional
