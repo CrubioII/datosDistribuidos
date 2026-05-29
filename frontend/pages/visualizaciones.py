@@ -92,6 +92,10 @@ def render(selected_stores: list[int]):
 
     if box_type == "Unidades por transacción (por categoría)":
         box_stats = api.get_boxplot_categorias(selected_stores)
+        
+        if not box_stats:
+            st.warning("No hay datos suficientes para generar el boxplot con la selección actual.")
+            return
 
         fig_box = go.Figure()
         for stat in box_stats:
@@ -111,11 +115,15 @@ def render(selected_stores: list[int]):
         )
         st.plotly_chart(fig_box, use_container_width=True)
         st.caption(
-            "Top 12 categorías por volumen. Los bigotes indican el rango sin outliers (1.5×IQR)."
+            "Top categorías por volumen. Los bigotes indican el rango sin outliers (1.5×IQR)."
         )
 
     else:
         box_stats = api.get_boxplot_clientes(selected_stores)
+        
+        if not box_stats:
+            st.warning("No hay datos suficientes para generar el boxplot de clientes.")
+            return
 
         fig_box2 = go.Figure()
         for stat in box_stats:

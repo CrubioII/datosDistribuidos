@@ -49,13 +49,33 @@ app.add_middleware(
 )
 
 # ── Carga de datos al iniciar ──
-_transactions, _exploded, _categories = build_full_dataset()
+_transactions, _exploded, _raw_data = build_full_dataset()
+
+# Si _raw_data es un dict, significa que tenemos agregados de la nube
+_is_cloud = isinstance(_raw_data, dict)
+_cloud_aggregates = _raw_data if _is_cloud else {}
+
+# Intentar cargar categorías locales siempre para mapeo de productos
+from data_loader import get_data_path
+_data_path = get_data_path()
+_cat_path = _data_path / "Products" / "Categories.csv"
+_pc_path = _data_path / "Products" / "ProductCategory.csv"
+
+if _cat_path.exists() and _pc_path.exists():
+    _categories = pd.read_csv(_cat_path, sep="|", header=None, names=["category_id", "category_name"])
+    _pc = pd.read_csv(_pc_path, sep="|")
+    _pc.columns = ["product_id", "category_id"]
+    _product_cat_map = _pc.merge(_categories, on="category_id", how="left")
+else:
+    _categories = _raw_data if not _is_cloud else pd.DataFrame()
+    _product_cat_map = pd.DataFrame()
 
 
 def _filter_stores(stores: Optional[str]):
     """Filtra DataFrames por tiendas. stores es string '102,103'."""
     if not stores:
         return _transactions, _exploded
+    
     store_list = [int(s.strip()) for s in stores.split(",")]
     txn = _transactions[_transactions["store_id"].isin(store_list)]
     exp = _exploded[_exploded["store_id"].isin(store_list)]
@@ -70,13 +90,21 @@ def _filter_stores(stores: Optional[str]):
 @app.get("/api/stores")
 def get_stores():
     """Retorna las tiendas disponibles."""
-    stores = sorted(_exploded["store_id"].unique().tolist())
+    if _transactions.empty:
+        return {"stores": [102, 103, 107, 110]}
+    stores = sorted(_transactions["store_id"].unique().tolist())
     return {"stores": [int(s) for s in stores]}
 
 
 @app.get("/api/categories")
 def get_categories():
     """Retorna el catálogo de categorías."""
+    if _is_cloud and _categories.empty:
+        # Intentar extraer del agregado de categorías
+        cats_data = _cloud_aggregates.get("categorias_rentables", [])
+        if cats_data:
+            return {"categories": [{"category_name": c["categoria"]} for c in cats_data]}
+    
     cats = _categories.to_dict(orient="records")
     return {"categories": cats}
 
@@ -89,7 +117,21 @@ def get_categories():
 @app.get("/api/resumen/kpis")
 def get_kpis(stores: Optional[str] = Query(None, description="IDs de tienda separados por coma")):
     """KPIs principales."""
+    if not stores and _is_cloud:
+        k = _cloud_aggregates.get("kpis", {})
+        return {
+            "total_unidades": k.get("total_unidades_vendidas", 0),
+            "total_transacciones": k.get("total_transacciones", 0),
+            "clientes_unicos": 0,
+            "productos_distintos": 0,
+            "tiendas": 4,
+            "promedio_productos_por_transaccion": round(k.get("total_unidades_vendidas", 0) / k.get("total_transacciones", 1), 1) if k.get("total_transacciones", 0) > 0 else 0,
+        }
+
     txn, exp = _filter_stores(stores)
+    if txn.empty:
+        return {"total_unidades": 0, "total_transacciones": 0, "clientes_unicos": 0, "productos_distintos": 0, "tiendas": 0, "promedio_productos_por_transaccion": 0}
+
     total_units = len(exp)
     total_txn = int(txn["transaction_id"].nunique())
     unique_customers = int(exp["customer_id"].nunique())
@@ -113,7 +155,22 @@ def get_top_productos(
     limit: int = Query(10, ge=1, le=50),
 ):
     """Top N productos más comprados por volumen."""
+    if not stores and _is_cloud:
+        data = _cloud_aggregates.get("top_10_productos", [])
+        df = pd.DataFrame(data)
+        if not df.empty:
+            df = df.rename(columns={"volumen": "unidades"})
+            df["product_id"] = df["product_id"].astype(int)
+            if not _product_cat_map.empty:
+                df = df.merge(_product_cat_map[["product_id", "category_name"]], on="product_id", how="left")
+            
+            df["category_name"] = df["category_name"].fillna("Sin categoría")
+            return {"data": df.head(limit).to_dict(orient="records")}
+        return {"data": []}
+
     _, exp = _filter_stores(stores)
+    if exp.empty: return {"data": []}
+    
     top = (
         exp.groupby("product_id")
         .agg(unidades=("product_id", "size"), transacciones=("transaction_id", "nunique"))
@@ -135,7 +192,18 @@ def get_top_clientes(
     limit: int = Query(10, ge=1, le=50),
 ):
     """Top N clientes con más compras."""
+    if not stores and _is_cloud:
+        data = _cloud_aggregates.get("top_10_clientes", [])
+        df = pd.DataFrame(data)
+        if not df.empty:
+            df = df.rename(columns={"compras": "transacciones"})
+            df["unidades"] = 0
+            df["productos_distintos"] = 0
+            return {"data": df.head(limit).to_dict(orient="records")}
+
     _, exp = _filter_stores(stores)
+    if exp.empty: return {"data": []}
+
     top = (
         exp.groupby("customer_id")
         .agg(
@@ -156,7 +224,12 @@ def get_top_clientes(
 @app.get("/api/resumen/dias-pico")
 def get_dias_pico(stores: Optional[str] = Query(None)):
     """Transacciones por día (serie de tiempo)."""
+    if not stores and _is_cloud:
+        return {"data": _cloud_aggregates.get("linea_tiempo_dias", [])}
+
     txn, _ = _filter_stores(stores)
+    if txn.empty: return {"data": []}
+    
     daily = txn.groupby(txn["date"].dt.date).size().reset_index(name="transacciones")
     daily.columns = ["fecha", "transacciones"]
     daily["fecha"] = daily["fecha"].astype(str)
@@ -167,7 +240,23 @@ def get_dias_pico(stores: Optional[str] = Query(None)):
 @app.get("/api/resumen/dias-pico-heatmap")
 def get_dias_pico_heatmap(stores: Optional[str] = Query(None)):
     """Heatmap: día de la semana x semana del año."""
+    if not stores and _is_cloud:
+        data = _cloud_aggregates.get("linea_tiempo_dias", [])
+        df = pd.DataFrame(data)
+        if not df.empty:
+            df["date"] = pd.to_datetime(df["fecha"])
+            df["day_of_week"] = df["date"].dt.dayofweek
+            df["week"] = df["date"].dt.isocalendar().week.astype(int)
+            day_names = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+            df["dia"] = df["day_of_week"].map(lambda x: day_names[x])
+            return {
+                "data": df[["week", "dia", "transacciones"]].to_dict(orient="records"),
+                "day_order": day_names,
+            }
+
     txn, _ = _filter_stores(stores)
+    if txn.empty: return {"data": [], "day_order": []}
+    
     txn_c = txn.copy()
     txn_c["day_of_week"] = txn_c["date"].dt.dayofweek
     txn_c["week"] = txn_c["date"].dt.isocalendar().week.astype(int)
@@ -185,7 +274,23 @@ def get_dias_pico_heatmap(stores: Optional[str] = Query(None)):
 @app.get("/api/resumen/categorias")
 def get_categorias_volumen(stores: Optional[str] = Query(None)):
     """Categorías ordenadas por volumen de ventas."""
+    if not stores and _is_cloud:
+        data = _cloud_aggregates.get("categorias_rentables", [])
+        df = pd.DataFrame(data)
+        if not df.empty:
+            df = df.rename(columns={"volumen": "unidades", "categoria": "category_name"})
+            df["productos_distintos"] = 0
+            df["transacciones"] = 0
+            return {
+                "data": df.to_dict(orient="records"),
+                "sin_categoria": 0,
+                "total_unidades": int(df["unidades"].sum()),
+                "porcentaje_sin_categoria": 0,
+            }
+
     _, exp = _filter_stores(stores)
+    if exp.empty: return {"data": [], "sin_categoria": 0, "total_unidades": 0, "porcentaje_sin_categoria": 0}
+
     cat_vol = (
         exp.dropna(subset=["category_name"])
         .groupby("category_name")
@@ -221,7 +326,26 @@ def get_serie_tiempo(
     metrica: str = Query("transacciones", pattern="^(transacciones|unidades)$"),
 ):
     """Serie de tiempo con agrupación y métrica configurable."""
+    if not stores and _is_cloud:
+        data = _cloud_aggregates.get("linea_tiempo_dias", [])
+        df = pd.DataFrame(data)
+        if not df.empty:
+            df["periodo"] = pd.to_datetime(df["fecha"])
+            ts = df.rename(columns={"transacciones": "valor"})
+            ts["periodo"] = ts["periodo"].dt.strftime("%Y-%m-%d")
+            media_movil = None
+            if len(ts) > 7:
+                mm = ts.copy()
+                mm["media_movil"] = mm["valor"].rolling(window=7, center=True).mean()
+                mm = mm.dropna(subset=["media_movil"])
+                mm["media_movil"] = mm["media_movil"].round(1)
+                media_movil = mm[["periodo", "media_movil"]].to_dict(orient="records")
+            return {"data": ts[["periodo", "valor"]].to_dict(orient="records"), "media_movil": media_movil}
+
     txn, exp = _filter_stores(stores)
+    if (metrica == "transacciones" and txn.empty) or (metrica == "unidades" and exp.empty):
+        return {"data": [], "media_movil": None}
+
     source = txn if metrica == "transacciones" else exp
     source_c = source.copy()
 

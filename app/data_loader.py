@@ -61,28 +61,37 @@ def load_from_azure():
 def get_data_path() -> Path:
     """Retorna la ruta al directorio del dataset local (Fallback)."""
     base = Path(__file__).resolve().parent.parent
-    data_dir = base / "DataSet (1)" / "DataSet"
+    # El dataset está en la raíz del proyecto, fuera de datosDistribuidos/
+    data_dir = base.parent / "DataSet" / "DataSet"
     if not data_dir.exists():
-        data_dir = Path("DataSet (1)") / "DataSet"
+        data_dir = Path("DataSet") / "DataSet"
     return data_dir
 
 
 def load_local_fallback():
     """Carga datos desde archivos CSV locales (Legacy/Dev)."""
-    from data_loader_legacy import build_full_dataset_local
     return build_full_dataset_local()
 
 
 def build_full_dataset():
     """
     Intenta cargar desde Azure. Si falla o no hay config, usa local.
-    Retorna DataFrames compatibles con la API actual.
+    Retorna DataFrames compatibles con la API actual + opcionalmente agregados.
     """
+    # Intentar cargar local de todos modos para tener raw data para filtros
+    local_txn, local_exp, local_cat = build_full_dataset_local()
+    
     cloud_data = load_from_azure()
     
     if cloud_data:
         print("🚀 Datos cargados exitosamente desde Azure.")
         try:
+            # Si el JSON tiene el formato de agregados pre-calculados
+            if isinstance(cloud_data, dict) and "kpis" in cloud_data:
+                print("✨ Formato de agregados detectado (Cloud-first).")
+                # Retornamos local raw data + cloud aggregates
+                return local_txn, local_exp, cloud_data
+
             transactions = pd.DataFrame()
             exploded = pd.DataFrame()
             categories = pd.DataFrame()

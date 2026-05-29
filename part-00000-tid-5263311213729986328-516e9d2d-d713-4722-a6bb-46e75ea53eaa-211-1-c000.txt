@@ -1,0 +1,934 @@
+{
+    "kpis": {
+        "total_unidades_vendidas": 15272155,
+        "total_transacciones": 1108987
+    },
+    "top_10_productos": [
+        {
+            "product_id": "5",
+            "volumen": 601052
+        },
+        {
+            "product_id": "3",
+            "volumen": 539710
+        },
+        {
+            "product_id": "4",
+            "volumen": 520836
+        },
+        {
+            "product_id": "8",
+            "volumen": 507798
+        },
+        {
+            "product_id": "7",
+            "volumen": 451754
+        },
+        {
+            "product_id": "13",
+            "volumen": 370334
+        },
+        {
+            "product_id": "14",
+            "volumen": 359268
+        },
+        {
+            "product_id": "17",
+            "volumen": 332810
+        },
+        {
+            "product_id": "18",
+            "volumen": 332466
+        },
+        {
+            "product_id": "26",
+            "volumen": 303588
+        }
+    ],
+    "top_10_clientes": [
+        {
+            "customer_id": "336296",
+            "compras": 180
+        },
+        {
+            "customer_id": "440157",
+            "compras": 163
+        },
+        {
+            "customer_id": "806377",
+            "compras": 159
+        },
+        {
+            "customer_id": "576930",
+            "compras": 157
+        },
+        {
+            "customer_id": "525328",
+            "compras": 148
+        },
+        {
+            "customer_id": "517807",
+            "compras": 144
+        },
+        {
+            "customer_id": "307063",
+            "compras": 141
+        },
+        {
+            "customer_id": "51733",
+            "compras": 130
+        },
+        {
+            "customer_id": "458679",
+            "compras": 128
+        },
+        {
+            "customer_id": "804010",
+            "compras": 127
+        }
+    ],
+    "categorias_rentables": [
+        {
+            "categoria": "SIN CATEGORIA",
+            "volumen": 5330800
+        },
+        {
+            "categoria": "VERDURAS RAIZ,TUBERCULO Y BULBOS",
+            "volumen": 1811523
+        },
+        {
+            "categoria": "CARNES PROCESADAS AL VACIO",
+            "volumen": 1811523
+        },
+        {
+            "categoria": "CUIDADO DE LA ROPA",
+            "volumen": 1410750
+        },
+        {
+            "categoria": "VERDURAS DE FRUTOS",
+            "volumen": 1410750
+        },
+        {
+            "categoria": "VERDURAS DE HOJAS",
+            "volumen": 729513
+        },
+        {
+            "categoria": "JUGOS",
+            "volumen": 729513
+        },
+        {
+            "categoria": "AROMATICAS CONDIMENTOS",
+            "volumen": 493388
+        },
+        {
+            "categoria": "PASTAS COMESTIBLES",
+            "volumen": 491896
+        },
+        {
+            "categoria": "AROMATICAS MEDICINALES",
+            "volumen": 294753
+        },
+        {
+            "categoria": "GRUPO FRUVER-EXCEPCIONES",
+            "volumen": 233546
+        },
+        {
+            "categoria": "LEGUMBRES VERDES",
+            "volumen": 125567
+        },
+        {
+            "categoria": "LULO NACIONAL",
+            "volumen": 63669
+        },
+        {
+            "categoria": "CUIDADO DE LA COCINA",
+            "volumen": 58857
+        },
+        {
+            "categoria": "GALLETAS",
+            "volumen": 58857
+        },
+        {
+            "categoria": "AZUCAR",
+            "volumen": 52471
+        },
+        {
+            "categoria": "SOPAS-CREMAS-CALDOS",
+            "volumen": 40827
+        },
+        {
+            "categoria": "MANGO TOMY",
+            "volumen": 38926
+        },
+        {
+            "categoria": "PAPAYA COMUN",
+            "volumen": 29334
+        },
+        {
+            "categoria": "VERDURAS RAIZ,TUBE,ETC, PESO FIJO",
+            "volumen": 13958
+        },
+        {
+            "categoria": "HUEVOS",
+            "volumen": 11644
+        },
+        {
+            "categoria": "ENLATADOS",
+            "volumen": 7088
+        },
+        {
+            "categoria": "BANANO EXPORTACION",
+            "volumen": 5278
+        },
+        {
+            "categoria": "CONFITES",
+            "volumen": 3956
+        },
+        {
+            "categoria": "QUESO",
+            "volumen": 3543
+        },
+        {
+            "categoria": "PASABOCAS",
+            "volumen": 3543
+        },
+        {
+            "categoria": "CONDIMENTOS",
+            "volumen": 3202
+        },
+        {
+            "categoria": "CAFE NO SOLUBLES",
+            "volumen": 1988
+        },
+        {
+            "categoria": "GRANOS",
+            "volumen": 1492
+        }
+    ],
+    "linea_tiempo_dias": [
+        {
+            "fecha": "2013-01-01",
+            "transacciones": 2852
+        },
+        {
+            "fecha": "2013-01-02",
+            "transacciones": 6547
+        },
+        {
+            "fecha": "2013-01-03",
+            "transacciones": 6512
+        },
+        {
+            "fecha": "2013-01-04",
+            "transacciones": 5934
+        },
+        {
+            "fecha": "2013-01-05",
+            "transacciones": 6380
+        },
+        {
+            "fecha": "2013-01-06",
+            "transacciones": 5197
+        },
+        {
+            "fecha": "2013-01-07",
+            "transacciones": 5912
+        },
+        {
+            "fecha": "2013-01-08",
+            "transacciones": 6361
+        },
+        {
+            "fecha": "2013-01-09",
+            "transacciones": 5574
+        },
+        {
+            "fecha": "2013-01-10",
+            "transacciones": 6066
+        },
+        {
+            "fecha": "2013-01-11",
+            "transacciones": 5148
+        },
+        {
+            "fecha": "2013-01-12",
+            "transacciones": 6403
+        },
+        {
+            "fecha": "2013-01-13",
+            "transacciones": 6679
+        },
+        {
+            "fecha": "2013-01-14",
+            "transacciones": 5809
+        },
+        {
+            "fecha": "2013-01-15",
+            "transacciones": 6270
+        },
+        {
+            "fecha": "2013-01-16",
+            "transacciones": 5975
+        },
+        {
+            "fecha": "2013-01-17",
+            "transacciones": 6348
+        },
+        {
+            "fecha": "2013-01-18",
+            "transacciones": 5248
+        },
+        {
+            "fecha": "2013-01-19",
+            "transacciones": 6945
+        },
+        {
+            "fecha": "2013-01-20",
+            "transacciones": 7370
+        },
+        {
+            "fecha": "2013-01-21",
+            "transacciones": 5710
+        },
+        {
+            "fecha": "2013-01-22",
+            "transacciones": 5534
+        },
+        {
+            "fecha": "2013-01-23",
+            "transacciones": 4744
+        },
+        {
+            "fecha": "2013-01-24",
+            "transacciones": 5404
+        },
+        {
+            "fecha": "2013-01-25",
+            "transacciones": 5167
+        },
+        {
+            "fecha": "2013-01-26",
+            "transacciones": 6953
+        },
+        {
+            "fecha": "2013-01-27",
+            "transacciones": 7371
+        },
+        {
+            "fecha": "2013-01-28",
+            "transacciones": 5696
+        },
+        {
+            "fecha": "2013-01-29",
+            "transacciones": 5759
+        },
+        {
+            "fecha": "2013-01-30",
+            "transacciones": 5579
+        },
+        {
+            "fecha": "2013-01-31",
+            "transacciones": 6842
+        },
+        {
+            "fecha": "2013-02-01",
+            "transacciones": 6333
+        },
+        {
+            "fecha": "2013-02-02",
+            "transacciones": 7963
+        },
+        {
+            "fecha": "2013-02-03",
+            "transacciones": 8483
+        },
+        {
+            "fecha": "2013-02-04",
+            "transacciones": 5761
+        },
+        {
+            "fecha": "2013-02-05",
+            "transacciones": 6030
+        },
+        {
+            "fecha": "2013-02-06",
+            "transacciones": 4976
+        },
+        {
+            "fecha": "2013-02-07",
+            "transacciones": 6300
+        },
+        {
+            "fecha": "2013-02-08",
+            "transacciones": 4814
+        },
+        {
+            "fecha": "2013-02-09",
+            "transacciones": 6789
+        },
+        {
+            "fecha": "2013-02-10",
+            "transacciones": 7851
+        },
+        {
+            "fecha": "2013-02-11",
+            "transacciones": 5063
+        },
+        {
+            "fecha": "2013-02-12",
+            "transacciones": 5351
+        },
+        {
+            "fecha": "2013-02-13",
+            "transacciones": 5029
+        },
+        {
+            "fecha": "2013-02-14",
+            "transacciones": 5888
+        },
+        {
+            "fecha": "2013-02-15",
+            "transacciones": 5358
+        },
+        {
+            "fecha": "2013-02-16",
+            "transacciones": 7587
+        },
+        {
+            "fecha": "2013-02-17",
+            "transacciones": 7833
+        },
+        {
+            "fecha": "2013-02-18",
+            "transacciones": 5497
+        },
+        {
+            "fecha": "2013-02-19",
+            "transacciones": 5699
+        },
+        {
+            "fecha": "2013-02-20",
+            "transacciones": 4890
+        },
+        {
+            "fecha": "2013-02-21",
+            "transacciones": 5850
+        },
+        {
+            "fecha": "2013-02-22",
+            "transacciones": 4678
+        },
+        {
+            "fecha": "2013-02-23",
+            "transacciones": 6395
+        },
+        {
+            "fecha": "2013-02-24",
+            "transacciones": 7159
+        },
+        {
+            "fecha": "2013-02-25",
+            "transacciones": 5235
+        },
+        {
+            "fecha": "2013-02-26",
+            "transacciones": 5722
+        },
+        {
+            "fecha": "2013-02-27",
+            "transacciones": 4859
+        },
+        {
+            "fecha": "2013-02-28",
+            "transacciones": 6805
+        },
+        {
+            "fecha": "2013-03-01",
+            "transacciones": 6226
+        },
+        {
+            "fecha": "2013-03-02",
+            "transacciones": 8121
+        },
+        {
+            "fecha": "2013-03-03",
+            "transacciones": 8401
+        },
+        {
+            "fecha": "2013-03-04",
+            "transacciones": 5636
+        },
+        {
+            "fecha": "2013-03-05",
+            "transacciones": 5823
+        },
+        {
+            "fecha": "2013-03-06",
+            "transacciones": 4861
+        },
+        {
+            "fecha": "2013-03-07",
+            "transacciones": 6570
+        },
+        {
+            "fecha": "2013-03-08",
+            "transacciones": 4935
+        },
+        {
+            "fecha": "2013-03-09",
+            "transacciones": 6694
+        },
+        {
+            "fecha": "2013-03-10",
+            "transacciones": 7333
+        },
+        {
+            "fecha": "2013-03-11",
+            "transacciones": 5111
+        },
+        {
+            "fecha": "2013-03-12",
+            "transacciones": 5476
+        },
+        {
+            "fecha": "2013-03-13",
+            "transacciones": 4467
+        },
+        {
+            "fecha": "2013-03-14",
+            "transacciones": 5845
+        },
+        {
+            "fecha": "2013-03-15",
+            "transacciones": 5248
+        },
+        {
+            "fecha": "2013-03-16",
+            "transacciones": 7122
+        },
+        {
+            "fecha": "2013-03-17",
+            "transacciones": 7859
+        },
+        {
+            "fecha": "2013-03-18",
+            "transacciones": 5280
+        },
+        {
+            "fecha": "2013-03-19",
+            "transacciones": 5489
+        },
+        {
+            "fecha": "2013-03-20",
+            "transacciones": 4640
+        },
+        {
+            "fecha": "2013-03-21",
+            "transacciones": 5722
+        },
+        {
+            "fecha": "2013-03-22",
+            "transacciones": 5062
+        },
+        {
+            "fecha": "2013-03-23",
+            "transacciones": 7089
+        },
+        {
+            "fecha": "2013-03-24",
+            "transacciones": 6154
+        },
+        {
+            "fecha": "2013-03-25",
+            "transacciones": 6033
+        },
+        {
+            "fecha": "2013-03-26",
+            "transacciones": 6022
+        },
+        {
+            "fecha": "2013-03-27",
+            "transacciones": 7223
+        },
+        {
+            "fecha": "2013-03-28",
+            "transacciones": 6863
+        },
+        {
+            "fecha": "2013-03-29",
+            "transacciones": 3925
+        },
+        {
+            "fecha": "2013-03-30",
+            "transacciones": 6677
+        },
+        {
+            "fecha": "2013-03-31",
+            "transacciones": 6786
+        },
+        {
+            "fecha": "2013-04-01",
+            "transacciones": 6378
+        },
+        {
+            "fecha": "2013-04-02",
+            "transacciones": 6705
+        },
+        {
+            "fecha": "2013-04-03",
+            "transacciones": 5599
+        },
+        {
+            "fecha": "2013-04-04",
+            "transacciones": 6408
+        },
+        {
+            "fecha": "2013-04-05",
+            "transacciones": 5177
+        },
+        {
+            "fecha": "2013-04-06",
+            "transacciones": 7096
+        },
+        {
+            "fecha": "2013-04-07",
+            "transacciones": 8229
+        },
+        {
+            "fecha": "2013-04-08",
+            "transacciones": 5019
+        },
+        {
+            "fecha": "2013-04-09",
+            "transacciones": 5546
+        },
+        {
+            "fecha": "2013-04-10",
+            "transacciones": 4923
+        },
+        {
+            "fecha": "2013-04-11",
+            "transacciones": 5613
+        },
+        {
+            "fecha": "2013-04-12",
+            "transacciones": 4763
+        },
+        {
+            "fecha": "2013-04-13",
+            "transacciones": 7092
+        },
+        {
+            "fecha": "2013-04-14",
+            "transacciones": 7903
+        },
+        {
+            "fecha": "2013-04-15",
+            "transacciones": 5996
+        },
+        {
+            "fecha": "2013-04-16",
+            "transacciones": 6495
+        },
+        {
+            "fecha": "2013-04-17",
+            "transacciones": 4980
+        },
+        {
+            "fecha": "2013-04-18",
+            "transacciones": 6241
+        },
+        {
+            "fecha": "2013-04-19",
+            "transacciones": 5015
+        },
+        {
+            "fecha": "2013-04-20",
+            "transacciones": 6803
+        },
+        {
+            "fecha": "2013-04-21",
+            "transacciones": 8092
+        },
+        {
+            "fecha": "2013-04-22",
+            "transacciones": 5016
+        },
+        {
+            "fecha": "2013-04-23",
+            "transacciones": 4938
+        },
+        {
+            "fecha": "2013-04-24",
+            "transacciones": 4759
+        },
+        {
+            "fecha": "2013-04-25",
+            "transacciones": 5790
+        },
+        {
+            "fecha": "2013-04-26",
+            "transacciones": 5173
+        },
+        {
+            "fecha": "2013-04-27",
+            "transacciones": 6889
+        },
+        {
+            "fecha": "2013-04-28",
+            "transacciones": 8244
+        },
+        {
+            "fecha": "2013-04-29",
+            "transacciones": 4837
+        },
+        {
+            "fecha": "2013-04-30",
+            "transacciones": 6320
+        },
+        {
+            "fecha": "2013-05-01",
+            "transacciones": 7471
+        },
+        {
+            "fecha": "2013-05-02",
+            "transacciones": 5495
+        },
+        {
+            "fecha": "2013-05-03",
+            "transacciones": 5901
+        },
+        {
+            "fecha": "2013-05-04",
+            "transacciones": 7162
+        },
+        {
+            "fecha": "2013-05-05",
+            "transacciones": 7615
+        },
+        {
+            "fecha": "2013-05-06",
+            "transacciones": 5421
+        },
+        {
+            "fecha": "2013-05-07",
+            "transacciones": 6105
+        },
+        {
+            "fecha": "2013-05-08",
+            "transacciones": 4995
+        },
+        {
+            "fecha": "2013-05-09",
+            "transacciones": 5863
+        },
+        {
+            "fecha": "2013-05-10",
+            "transacciones": 5445
+        },
+        {
+            "fecha": "2013-05-11",
+            "transacciones": 8814
+        },
+        {
+            "fecha": "2013-05-12",
+            "transacciones": 6489
+        },
+        {
+            "fecha": "2013-05-13",
+            "transacciones": 6689
+        },
+        {
+            "fecha": "2013-05-14",
+            "transacciones": 5756
+        },
+        {
+            "fecha": "2013-05-15",
+            "transacciones": 5157
+        },
+        {
+            "fecha": "2013-05-16",
+            "transacciones": 6844
+        },
+        {
+            "fecha": "2013-05-17",
+            "transacciones": 5461
+        },
+        {
+            "fecha": "2013-05-18",
+            "transacciones": 7079
+        },
+        {
+            "fecha": "2013-05-19",
+            "transacciones": 7531
+        },
+        {
+            "fecha": "2013-05-20",
+            "transacciones": 4988
+        },
+        {
+            "fecha": "2013-05-21",
+            "transacciones": 5924
+        },
+        {
+            "fecha": "2013-05-22",
+            "transacciones": 3748
+        },
+        {
+            "fecha": "2013-05-23",
+            "transacciones": 5746
+        },
+        {
+            "fecha": "2013-05-24",
+            "transacciones": 4784
+        },
+        {
+            "fecha": "2013-05-25",
+            "transacciones": 6729
+        },
+        {
+            "fecha": "2013-05-26",
+            "transacciones": 6545
+        },
+        {
+            "fecha": "2013-05-27",
+            "transacciones": 5529
+        },
+        {
+            "fecha": "2013-05-28",
+            "transacciones": 5910
+        },
+        {
+            "fecha": "2013-05-29",
+            "transacciones": 4958
+        },
+        {
+            "fecha": "2013-05-30",
+            "transacciones": 5565
+        },
+        {
+            "fecha": "2013-05-31",
+            "transacciones": 5887
+        },
+        {
+            "fecha": "2013-06-01",
+            "transacciones": 8388
+        },
+        {
+            "fecha": "2013-06-02",
+            "transacciones": 7296
+        },
+        {
+            "fecha": "2013-06-03",
+            "transacciones": 7720
+        },
+        {
+            "fecha": "2013-06-04",
+            "transacciones": 6462
+        },
+        {
+            "fecha": "2013-06-05",
+            "transacciones": 5455
+        },
+        {
+            "fecha": "2013-06-06",
+            "transacciones": 6163
+        },
+        {
+            "fecha": "2013-06-07",
+            "transacciones": 5653
+        },
+        {
+            "fecha": "2013-06-08",
+            "transacciones": 6886
+        },
+        {
+            "fecha": "2013-06-09",
+            "transacciones": 6179
+        },
+        {
+            "fecha": "2013-06-10",
+            "transacciones": 6631
+        },
+        {
+            "fecha": "2013-06-11",
+            "transacciones": 5556
+        },
+        {
+            "fecha": "2013-06-12",
+            "transacciones": 5047
+        },
+        {
+            "fecha": "2013-06-13",
+            "transacciones": 5687
+        },
+        {
+            "fecha": "2013-06-14",
+            "transacciones": 5642
+        },
+        {
+            "fecha": "2013-06-15",
+            "transacciones": 9427
+        },
+        {
+            "fecha": "2013-06-16",
+            "transacciones": 8096
+        },
+        {
+            "fecha": "2013-06-17",
+            "transacciones": 5968
+        },
+        {
+            "fecha": "2013-06-18",
+            "transacciones": 6293
+        },
+        {
+            "fecha": "2013-06-19",
+            "transacciones": 5091
+        },
+        {
+            "fecha": "2013-06-20",
+            "transacciones": 5934
+        },
+        {
+            "fecha": "2013-06-21",
+            "transacciones": 5732
+        },
+        {
+            "fecha": "2013-06-22",
+            "transacciones": 6660
+        },
+        {
+            "fecha": "2013-06-23",
+            "transacciones": 6939
+        },
+        {
+            "fecha": "2013-06-24",
+            "transacciones": 5101
+        },
+        {
+            "fecha": "2013-06-25",
+            "transacciones": 5870
+        },
+        {
+            "fecha": "2013-06-26",
+            "transacciones": 5310
+        },
+        {
+            "fecha": "2013-06-27",
+            "transacciones": 5872
+        },
+        {
+            "fecha": "2013-06-28",
+            "transacciones": 6257
+        },
+        {
+            "fecha": "2013-06-29",
+            "transacciones": 8129
+        },
+        {
+            "fecha": "2013-06-30",
+            "transacciones": 7031
+        }
+    ]
+}

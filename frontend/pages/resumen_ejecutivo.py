@@ -22,14 +22,27 @@ def render(selected_stores: list[int]):
     kpis = api.get_kpis(selected_stores)
 
     col1, col2, col3 = st.columns(3)
-    col1.metric("Total Unidades Vendidas", f"{kpis['total_unidades']:,.0f}")
-    col2.metric("Transacciones", f"{kpis['total_transacciones']:,.0f}")
-    col3.metric("Clientes Únicos", f"{kpis['clientes_unicos']:,.0f}")
+    col1.metric("Total Unidades Vendidas (Volumen)", f"{kpis['total_unidades']:,.0f}")
+    col2.metric("Total Transacciones (Frecuencia)", f"{kpis['total_transacciones']:,.0f}")
+    
+    if kpis['clientes_unicos'] > 0:
+        col3.metric("Clientes Únicos", f"{kpis['clientes_unicos']:,.0f}")
+    else:
+        col3.metric("Tiendas", f"{kpis['tiendas']}")
 
     col4, col5, col6 = st.columns(3)
-    col4.metric("Productos Distintos", f"{kpis['productos_distintos']:,.0f}")
-    col5.metric("Tiendas", f"{kpis['tiendas']}")
-    col6.metric("Promedio Prod/Transacción", f"{kpis['promedio_productos_por_transaccion']}")
+    if kpis['productos_distintos'] > 0:
+        col4.metric("Productos Distintos", f"{kpis['productos_distintos']:,.0f}")
+    else:
+        col4.write("") # Espacio vacío si no hay dato
+        
+    if kpis['clientes_unicos'] > 0:
+        col5.metric("Tiendas", f"{kpis['tiendas']}")
+    
+    col6.metric("Promedio Unid/Transacción", f"{kpis['promedio_productos_por_transaccion']}")
+
+    if not selected_stores and kpis['clientes_unicos'] == 0:
+        st.caption("ℹ️ Nota: Métricas de clientes y productos únicos solo disponibles en filtros por tienda.")
 
     st.divider()
 
@@ -99,37 +112,52 @@ def render(selected_stores: list[int]):
         st.plotly_chart(fig4, use_container_width=True)
 
     # ── Categorías ──
-    st.subheader("Categorías con Mayor Volumen de Ventas")
+    st.subheader("Categorías con Mayor Desempeño")
     cat_data = api.get_categorias(selected_stores)
     cat_df = pd.DataFrame(cat_data["data"])
 
-    col_a, col_b = st.columns(2)
+    if not cat_df.empty:
+        # Toggle de métrica si está disponible la frecuencia
+        has_freq = cat_df["transacciones"].sum() > 0
+        if has_freq:
+            metric_cat = st.radio("Analizar por:", ["Volumen (Unidades)", "Frecuencia (Transacciones)"], 
+                                  horizontal=True, key="cat_metric")
+            col_metric = "unidades" if "Volumen" in metric_cat else "transacciones"
+            label_metric = "Unidades Vendidas" if col_metric == "unidades" else "Número de Transacciones"
+        else:
+            col_metric = "unidades"
+            label_metric = "Unidades Vendidas"
 
-    with col_a:
-        top_cat = cat_df.head(10)
-        fig5 = px.bar(
-            top_cat, y="category_name", x="unidades", orientation="h",
-            text="unidades", color="unidades", color_continuous_scale="Oranges",
-        )
-        fig5.update_layout(
-            yaxis=dict(autorange="reversed", title=""),
-            xaxis_title="Unidades Vendidas",
-            coloraxis_showscale=False, height=400, title="Top 10 Categorías",
-        )
-        fig5.update_traces(texttemplate="%{text:,.0f}", textposition="outside")
-        st.plotly_chart(fig5, use_container_width=True)
+        col_a, col_b = st.columns(2)
 
-    with col_b:
-        top_8 = cat_df.head(8)[["category_name", "unidades"]].copy()
-        others = pd.DataFrame({
-            "category_name": ["OTRAS"],
-            "unidades": [cat_df.iloc[8:]["unidades"].sum()],
-        })
-        pie_data = pd.concat([top_8, others], ignore_index=True)
+        with col_a:
+            top_cat = cat_df.sort_values(col_metric, ascending=False).head(10)
+            fig5 = px.bar(
+                top_cat, y="category_name", x=col_metric, orientation="h",
+                text=col_metric, color=col_metric, color_continuous_scale="Oranges",
+            )
+            fig5.update_layout(
+                yaxis=dict(autorange="reversed", title=""),
+                xaxis_title=label_metric,
+                coloraxis_showscale=False, height=400, title=f"Top 10 Categorías ({label_metric})",
+            )
+            fig5.update_traces(texttemplate="%{text:,.0f}", textposition="outside")
+            st.plotly_chart(fig5, use_container_width=True)
 
-        fig6 = px.pie(pie_data, names="category_name", values="unidades", hole=0.4)
-        fig6.update_layout(height=400, title="Distribución por Categoría")
-        st.plotly_chart(fig6, use_container_width=True)
+        with col_b:
+            pie_df = cat_df.sort_values(col_metric, ascending=False)
+            top_8 = pie_df.head(8)[["category_name", col_metric]].copy()
+            others = pd.DataFrame({
+                "category_name": ["OTRAS"],
+                col_metric: [pie_df.iloc[8:][col_metric].sum()],
+            })
+            pie_data = pd.concat([top_8, others], ignore_index=True)
+
+            fig6 = px.pie(pie_data, names="category_name", values=col_metric, hole=0.4)
+            fig6.update_layout(height=400, title=f"Distribución por {label_metric}")
+            st.plotly_chart(fig6, use_container_width=True)
+    else:
+        st.warning("No hay datos de categorías disponibles.")
 
     # Nota de cobertura
     pct = cat_data["porcentaje_sin_categoria"]
