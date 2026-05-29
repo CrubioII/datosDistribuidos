@@ -15,6 +15,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse, Response
 from typing import Optional
 import pandas as pd
 import numpy as np
@@ -29,6 +31,15 @@ app = FastAPI(
     description="API de analítica de transacciones de supermercado",
     version="1.0.0",
 )
+
+# Servir archivos estáticos
+static_path = Path(__file__).resolve().parent / "static"
+static_path.mkdir(exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(static_path)), name="static")
+
+@app.get("/")
+def read_index():
+    return FileResponse(static_path / "index.html")
 
 app.add_middleware(
     CORSMiddleware,
