@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopLens — Analítica de Supermercado</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lucide-static@0.263.1/font/lucide.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="16" r="15" stroke="#3b82f6" stroke-width="2"/>
+                    <circle cx="16" cy="16" r="8" fill="#3b82f6" opacity="0.3"/>
+                    <circle cx="16" cy="16" r="4" fill="#3b82f6"/>
+                </svg>
+                <div>
+                    <h1>ShopLens</h1>
+                    <span>Analítica de Supermercado</span>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-module="resumen" onclick="switchModule('resumen', this)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                Resumen Ejecutivo
+            </a>
+            <a href="#" class="nav-item" data-module="visualizaciones" onclick="switchModule('visualizaciones', this)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Visualizaciones Analíticas
+            </a>
+            <a href="#" class="nav-item disabled" data-module="avanzado">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m-7-9h6m6 0h6"/></svg>
+                Análisis Avanzado
+                <span class="badge">PRONTO</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-section">
+            <h3>FILTRAR POR TIENDA</h3>
+            <div class="store-filters" id="storeFilters">
+                <!-- Generado por JS -->
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="dataset-info">
+                <div><span>Dataset</span><strong>4 tiendas · 6 meses</strong></div>
+                <div><span>Período</span><strong>Ene — Jun 2013</strong></div>
+                <div><span>Registros</span><strong>~1.1M transacciones</strong></div>
+            </div>
+            <div class="api-status" id="apiStatus">
+                <span class="status-dot"></span>
+                <span>Conectando...</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="content-header">
+            <div>
+                <span class="module-label" id="moduleLabel">MÓDULO 01</span>
+                <h2 id="moduleTitle">Resumen Ejecutivo</h2>
+            </div>
+            <div class="header-badges">
+                <span class="header-badge" id="badgeStores">Todas las tiendas</span>
+                <span class="header-badge">Ene–Jun 2013</span>
+            </div>
+        </div>
+
+        <!-- Module: Resumen Ejecutivo -->
+        <div class="module" id="module-resumen">
+            <div class="kpi-grid" id="kpiGrid">
+                <!-- KPIs generados por JS -->
+            </div>
+
+            <section class="chart-section">
+                <div class="section-header">
+                    <span class="section-number">1</span>
+                    <h3>Top 10 productos más comprados</h3>
+                </div>
+                <div class="chart-container" id="chartTopProductos"></div>
+            </section>
+
+            <section class="chart-section">
+                <div class="section-header">
+                    <span class="section-number">2</span>
+                    <h3>Top 10 clientes con más compras</h3>
+                </div>
+                <div class="chart-container" id="chartTopClientes"></div>
+            </section>
+
+            <section class="chart-section">
+                <div class="section-header">
+                    <span class="section-number">3</span>
+                    <h3>Días pico de compra</h3>
+                </div>
+                <div class="tab-bar" id="diasPicoTabs">
+                    <button class="tab active" onclick="switchDiasPico('serie', this)">Serie de Tiempo</button>
+                    <button class="tab" onclick="switchDiasPico('heatmap', this)">Heatmap Semanal</button>
+                </div>
+                <div class="chart-container" id="chartDiasPicoSerie"></div>
+                <div class="chart-container hidden" id="chartDiasPicoHeatmap"></div>
+            </section>
+
+            <section class="chart-section">
+                <div class="section-header">
+                    <span class="section-number">4</span>
+                    <h3>Categorías con mayor volumen de ventas</h3>
+                </div>
+                <div class="chart-row">
+                    <div class="chart-container" id="chartCategoriasBar"></div>
+                    <div class="chart-container" id="chartCategoriasPie"></div>
+                </div>
+                <div class="info-banner" id="catInfoBanner"></div>
+            </section>
+        </div>
+
+        <!-- Module: Visualizaciones Analíticas -->
+        <div class="module hidden" id="module-visualizaciones">
+            <section class="chart-section">
+                <div class="section-header">
+                    <span class="section-number">1</span>
+                    <h3>Serie de tiempo — ventas por período</h3>
+                </div>
+                <div class="controls-row">
+                    <div class="control-group">
+                        <label>AGRUPAR POR</label>
+                        <div class="btn-group">
+                            <button class="btn-toggle active" onclick="setTsAgg('dia', this)">Día</button>
+                            <button class="btn-toggle" onclick="setTsAgg('semana', this)">Semana</button>
+                            <button class="btn-toggle" onclick="setTsAgg('mes', this)">Mes</button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label>MÉTRICA</label>
+                        <div class="btn-group">
+                            <button class="btn-toggle active" onclick="setTsMetric('transacciones', this)">Transacciones</button>
+                            <button class="btn-toggle" onclick="setTsMetric('unidades', this)">Unidades vendidas</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container chart-tall" id="chartSerieTime"></div>
+                <details class="expander">
+                    <summary>Ver desglose por tienda</summary>
+                    <div class="chart-container" id="chartSerieByStore"></div>
+                </details>
+            </section>
+
+            <section class="chart-section">
+                <div class="section-header">
+                    <span class="section-number">2</span>
+                    <h3>Boxplot — distribución de comportamiento</h3>
+                </div>
+                <div class="controls-row">
+                    <div class="control-group">
+                        <label>ANALIZAR</label>
+                        <div class="btn-group">
+                            <button class="btn-toggle active" onclick="setBoxType('categorias', this)">Unidades por transacción (categoría)</button>
+                            <button class="btn-toggle" onclick="setBoxType('clientes', this)">Transacciones por cliente (tienda)</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container chart-tall" id="chartBoxplot"></div>
+            </section>
+
+            <section class="chart-section">
+                <div class="section-header">
+                    <span class="section-number">3</span>
+                    <h3>Heatmap — correlación entre variables de comportamiento</h3>
+                </div>
+                <p class="section-desc">Variables derivadas por cliente: frecuencia, volumen total, diversidad de productos/categorías, tiendas visitadas, promedio unidades/visita.</p>
+                <div class="chart-container chart-tall" id="chartCorrelacion"></div>
+                <details class="expander">
+                    <summary>Interpretación de la correlación</summary>
+                    <div class="interpretation" id="corrInterpretation"></div>
+                </details>
+            </section>
+
+            <section class="chart-section">
+                <div class="section-header">
+                    <span class="section-number">4</span>
+                    <h3>Exploración: Scatter Plot entre variables</h3>
+                </div>
+                <div class="controls-row">
+                    <div class="control-group">
+                        <label>VARIABLE X</label>
+                        <select id="scatterX" class="select-styled" onchange="renderScatter()"></select>
+                    </div>
+                    <div class="control-group">
+                        <label>VARIABLE Y</label>
+                        <select id="scatterY" class="select-styled" onchange="renderScatter()"></select>
+                    </div>
+                </div>
+                <div class="chart-container chart-tall" id="chartScatter"></div>
+                <p class="chart-caption" id="scatterCaption"></p>
+            </section>
+        </div>
+
+        <!-- Module: Análisis Avanzado (placeholder) -->
+        <div class="module hidden" id="module-avanzado">
+            <div class="placeholder-card">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m-7-9h6m6 0h6"/></svg>
+                <h3>Análisis Avanzado</h3>
+                <p>Este módulo se habilitará en la próxima entrega (Junio 5–10).</p>
+                <ul>
+                    <li>Segmentación de Clientes (K-Means)</li>
+                    <li>Recomendador de Productos</li>
+                    <li>Incorporación de Nuevos Datos</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

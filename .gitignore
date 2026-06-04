@@ -1,0 +1,123 @@
+# ─── Entornos virtuales ───────────────────────────────────────
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# ─── Bytecode y caché de Python ───────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.pyo
+*.pyd
+
+# ─── Distribución / build ─────────────────────────────────────
+build/
+dist/
+*.egg-info/
+*.egg
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ─── Variables de entorno y secretos ──────────────────────────
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets.json
+azure_credentials.json
+
+# ─── Datos crudos (pesados, no van al repo) ───────────────────
+DataSet (1)/
+DataSet/
+datosDistribuidos/
+nuevos_datos/
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+
+# Resultados precalculados de Spark (Azure Blob)
+part-*.txt
+part-*.csv
+part-*.json
+_SUCCESS
+
+# ─── Modelos serializados / outputs pesados ───────────────────
+*.pkl
+*.joblib
+*.model
+models/
+outputs/
+
+# ─── Documentación interna (no se versiona) ───────────────────
+CLAUDE.md
+schema_datos.md
+docs/arquitectura_correcciones.md
+
+# ─── IDE / Editor ─────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.spyderproject
+.spyproject
+
+# ─── Sistema operativo ────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+__MACOSX/
+
+# ─── Jupyter / Notebooks ──────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# ─── Streamlit ────────────────────────────────────────────────
+.streamlit/secrets.toml
+
+# ─── FastAPI / Uvicorn ────────────────────────────────────────
+*.log
+logs/
+uvicorn.log
+
+# ─── Pruebas / Coverage ───────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+
+# ─── Archivos temporales ──────────────────────────────────────
+*.tmp
+*.bak
+*.swp
+*.orig
+
+# ─── Comprimidos pesados ──────────────────────────────────────
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+ShopLens.zip

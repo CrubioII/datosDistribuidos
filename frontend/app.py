@@ -98,11 +98,5 @@ elif module == "Visualizaciones Analíticas":
     render(selected_stores)
 
 elif module == "Análisis Avanzado":
-    st.header("🧠 Análisis Avanzado")
-    st.info(
-        "Este módulo se habilitará en la próxima entrega (Junio 5-10).\n\n"
-        "Incluirá:\n"
-        "- **Segmentación de Clientes** (K-Means)\n"
-        "- **Recomendador de Productos** (Filtrado Colaborativo / Reglas de Asociación)\n"
-        "- **Incorporación de Nuevos Datos**"
-    )
+    from pages.analisis_avanzado import render
+    render(selected_stores)
